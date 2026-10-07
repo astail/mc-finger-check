@@ -73,6 +73,7 @@ public final class FingerCheckPlugin extends JavaPlugin implements Listener {
         command.setExecutor(handler);
         command.setTabCompleter(handler);
         getServer().getPluginManager().registerEvents(this, this);
+        getServer().getPluginManager().registerEvents(new ActivityListener(this::release), this);
         return true;
     }
 

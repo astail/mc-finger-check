@@ -1,5 +1,5 @@
 name: FingerCheck
-version: 0.1.0
+version: 0.2.0
 main: io.github.astail.fingercheck.FingerCheckPlugin
 description: "走っていないと怒られる、指のトレーニング用ルールを課すプラグインです。"
 api-version: '26.2'

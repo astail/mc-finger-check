@@ -51,9 +51,9 @@ final class SprintRule {
         return lastWarnedAt.containsKey(id);
     }
 
-    /** 新しいキー入力が違反の解除条件（W を離す・走るキー・スニーク）を満たすか。 */
+    /** 新しいキー入力が違反の解除条件（W を離す・走るキー・スニーク・ジャンプ）を満たすか。 */
     static boolean releases(Input input) {
-        return !input.isForward() || input.isSprint() || input.isSneak();
+        return !input.isForward() || input.isSprint() || input.isSneak() || input.isJump();
     }
 
     void forget(UUID id) {
@@ -83,8 +83,8 @@ final class SprintRule {
         if (player.isSprinting() || input.isSprint()) {
             return false;
         }
-        // スニークでゆっくり歩いているときは対象外。
-        if (input.isSneak() || player.isSneaking()) {
+        // スニークでゆっくり歩いているとき・ジャンプ中（歩く以外の行動）は対象外。
+        if (input.isSneak() || player.isSneaking() || input.isJump()) {
             return false;
         }
         // 飛行・滑空・騎乗・水中/溶岩・はしご等は走る/歩くの区別が無い（または走れない）ので対象外。

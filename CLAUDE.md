@@ -9,11 +9,11 @@ FingerCheck は、プレイヤーに「指のトレーニング」的なルー�
 
 - **ルール 1「走っていないと動けない」**: 前進キーを押しているのに走っていない状態が `threshold-seconds`（既定 2 秒）
   続いたら「Shift も押してね！」と注意し、W を離して押し直すか走る（またはスニークする）まで動けなくする。
-  スニーク中・飛行中などは対象外。
+  スニーク中・飛行中などは対象外。「歩くだけ」が条件で、歩く以外の行動をするとタイマーがリセット（ロックも解除）される。
 
 ## ビルド要件
 
-- Java 25 + Maven。生成物は `FingerCheck-0.1.0.jar`。
+- Java 25 + Maven。生成物は `FingerCheck-0.2.0.jar`。
 - 唯一の依存は `io.papermc.paper:paper-api:26.2.build.40-alpha`（provided）。
 - ローカルビルドは `./deploy.sh`（Homebrew `openjdk@25` を想定）。
 
@@ -23,6 +23,9 @@ FingerCheck は、プレイヤーに「指のトレーニング」的なルー�
   `PlayerInputEvent` での即時解除、`PlayerJoinEvent` / `PlayerQuitEvent` での状態破棄。
 - **MovementLock**: 違反中プレイヤーの移動ロック。`MOVEMENT_SPEED` に transient modifier（`MULTIPLY_SCALAR_1` -1 = 0 倍）を
   付けてクライアント側でも止め、空中移動（ジャンプ中は attribute が効かない）は `PlayerMoveEvent` で水平移動を打ち消す。
+- **ActivityListener**: 「歩く以外の行動」のイベント（腕振り・インタラクト（PHYSICAL 除く）・設置・エンティティ操作/攻撃・
+  持ち替え・ドロップ・手の入れ替え・インベントリを開く）を MONITOR で受け、タイマーをリセットする。キャンセル済みでも数える。
+  ジャンプは入力状態なので `SprintRule#isWalkingWithoutSprint` で `Input#isJump()` を見る（押しっぱなしにも対応）。
 - **FingerCheckCommand**: `/fingercheck <status|reload>` の実処理とタブ補完。
 - **SprintRule**: ルール 1 の判定と状態（`walkingSince` / `lastWarnedAt`）。`update` が `NONE / FIRST / REPEAT` を返す。
 
