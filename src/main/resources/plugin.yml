@@ -1,0 +1,25 @@
+name: FingerCheck
+version: 0.1.0
+main: io.github.astail.fingercheck.FingerCheckPlugin
+description: "走っていないと怒られる、指のトレーニング用ルールを課すプラグインです。"
+api-version: '26.2'
+author: astail
+
+commands:
+  fingercheck:
+    description: "FingerCheck の設定確認・再読み込みを行います。"
+    usage: "/fingercheck <status|reload>"
+    aliases: [fc]
+    permission: fingercheck.use
+    permission-message: "§cこのコマンドを実行する権限がありません。"
+
+permissions:
+  fingercheck.use:
+    description: "/fingercheck status を許可します。"
+    default: true
+  fingercheck.manage:
+    description: "/fingercheck reload を許可します。"
+    default: op
+  fingercheck.bypass:
+    description: "ルールの対象外にします（OP にも既定では付きません）。"
+    default: false
